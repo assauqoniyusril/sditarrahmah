@@ -1,1 +1,55 @@
-document.addEventListener("DOMContentLoaded",()=>{function t(t,e,n,o,c=""){let r=document.getElementById(t),a=e,l=n-e,i=n>e?1:-1,s=Math.abs(Math.floor(o/l)),d=setInterval(()=>{a+=i;let t=a;a>=1e3&&(t=(a/1e3).toFixed(1)+"k"),r.textContent=t+c,a==n&&clearInterval(d)},s)}t("count1",100,7,5e3,"+"),t("count2",100,30,5e3,"+"),t("count3",0,500,5e3,"+"),t("count4",100,10,5e3,"k+")});const sections=document.querySelectorAll("section"),navLinks=document.querySelectorAll(".nav-link");window.addEventListener("scroll",()=>{let t="";sections.forEach(e=>{const n=e.offsetTop-80;scrollY>=n&&(t=e.getAttribute("id"))}),navLinks.forEach(e=>{e.classList.remove("text-primary"),e.getAttribute("href")==="#"+t&&e.classList.add("text-primary")})}),window.addEventListener("load",function(){flatpickr(".flatpickr-date",{monthSelectorType:"static"})});
+document.addEventListener('DOMContentLoaded', () => {
+  function counter(id, start, end, duration, suffix = '') {
+    let obj = document.getElementById(id),
+      current = start,
+      range = end - start,
+      increment = end > start ? 1 : -1,
+      step = Math.abs(Math.floor(duration / range)),
+      timer = setInterval(() => {
+        current += increment
+        let formattedNumber = current
+
+        // Check if the number is 1000 or more to add "k+" (for thousands)
+        if (current >= 1000) {
+          formattedNumber = (current / 1000).toFixed(1) + 'k' // Adding the "k" suffix
+        }
+
+        obj.textContent = formattedNumber + suffix
+        if (current == end) {
+          clearInterval(timer)
+        }
+      }, step)
+  }
+
+  counter('count1', 100, 7, 5000, '+')
+  counter('count2', 100, 30, 5000, '+')
+  counter('count3', 0, 500, 5000, '+')
+  counter('count4', 100, 10, 5000, 'k+')
+})
+const sections = document.querySelectorAll('section')
+const navLinks = document.querySelectorAll('.nav-link')
+
+window.addEventListener('scroll', () => {
+  let current = ''
+
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 80 // Adjust for fixed navbar height
+    if (scrollY >= sectionTop) {
+      current = section.getAttribute('id')
+    }
+  })
+
+  navLinks.forEach(link => {
+    link.classList.remove('text-primary')
+    if (link.getAttribute('href') === '#' + current) {
+      link.classList.add('text-primary')
+    }
+  })
+})
+
+window.addEventListener('load', function () {
+  // Basic
+  flatpickr('.flatpickr-date', {
+    monthSelectorType: 'static'
+  })
+})
